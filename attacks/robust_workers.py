@@ -171,7 +171,7 @@ class RobustMinimaxDiffPureDefender():
 
             for i in range(self.samp_num):
                 def_x = self.trans( (x + delta * 255).clamp(0., 255.) )
-                adv_x = diffpure(def_x.data).detach()
+                adv_x = diffpure(def_x.detach()).detach()
 
                 adv_x.requires_grad_()
                 _y = model(adv_x)
@@ -179,7 +179,7 @@ class RobustMinimaxDiffPureDefender():
 
                 gd = torch.autograd.grad(lo, [adv_x])[0]
 
-                upd_lo = (def_x * gd).sum()
+                upd_lo = (diffpure(def_x) * gd).sum()
                 upd_lo.backward()
 
             with torch.no_grad():

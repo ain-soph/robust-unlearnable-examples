@@ -31,6 +31,7 @@ config = Namespace(
     sampling=Namespace(n_steps_each=1, noise_removal=True, probability_flow=False, snr=0.16, method='pc', predictor='euler_maruyama', corrector='none'), device=torch.device(type='cuda'))
 
 runner = RevGuidedDiffusion(args=args, config=config)
+runner.requires_grad_(False)
 
 
 def diffpure(x: torch.Tensor) -> torch.Tensor:
